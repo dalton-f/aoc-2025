@@ -16,4 +16,27 @@ const fs = require("fs");
 
 const text = fs.readFileSync("days/day-01/input.txt", "utf-8");
 
-console.log(text);
+const rotations = text.split("\n");
+
+const DIAL_SIZE = 100;
+
+let dial = 50;
+
+let timesPointingAtZero = 0;
+
+console.log(`The dial starts by pointing at ${dial}.`);
+
+for (const rotation of rotations) {
+  const direction = rotation.substring(0, 1);
+  const distance = parseInt(rotation.substring(1, rotation.length));
+
+  const delta = direction === "L" ? -distance : distance;
+
+  dial = (dial + (delta % DIAL_SIZE) + DIAL_SIZE) % DIAL_SIZE;
+
+  console.log(`The dial is rotated ${rotation} to point at ${dial}.`);
+
+  if (dial === 0) timesPointingAtZero++;
+}
+
+console.log(`The password in this example is ${timesPointingAtZero}.`);
